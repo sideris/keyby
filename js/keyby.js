@@ -3,13 +3,17 @@
  * Copyright (c) 2016 Petros G. Sideris
  * Licensed under the MIT license
  */
-var keyby = function () {
-
-    /**
+(function(root, factory) {
+	if (typeof define === 'function' && define.amd)	define([], factory);
+	else if (typeof exports === 'object')			module.exports = factory();
+	else											root.keyby = factory();
+}(this, function() {
+	var self = this;
+	/**
      * Map of keycodes and their corresponding keys
      * @type {Object}
      */
-    var map = {
+	 this.map = {
         8: 'backspace',
         9: 'tab',
         13: 'enter',
@@ -83,18 +87,20 @@ var keyby = function () {
         219: '[',
         220: '\\',
         221: ']',
-        222: '\''
-    };
-
-	this.on = function(key, callback){
+        222: '\''};
+	var keyby = {version: '0.0.1'};
+	var keycall = {};
+	keyby.on = function(key, callback){
+		key += '';
 		key = key.toLowerCase();
-		window.addEventListener('keyup', function(e){
-			var cd = e.which;
-			console.log(cd)
-			e.preventDefault()
-			if(key == map[e.which])
-				console.log('Clicked')
-		});
+		keycall[key] = callback;
 		return this;
 	};
-};
+	window.addEventListener('keyup', function(e){
+		e.preventDefault();
+		for(var key in keycall)
+			if(key == self.map[e.which])
+				keycall[key]()
+	});
+	return keyby;
+}));

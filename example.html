@@ -7,10 +7,16 @@
 <body>
 <div id="container">
 </div>
+<script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 <script src="js/keyby.js"></script>
 <script>
-	var k = new keyby();
-k.on('h', 'h')
+	$(document).ready(function(){
+		keyby.on('h', function(){
+			alert(1)
+		}).on('j', function () {
+			alert('j')
+		})
+	})
 </script>
 </body>
 </html>
